@@ -48,11 +48,6 @@ public class PermissionsListener implements Listener {
         plugin.updatePermissions(event.getPlayer());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerJoin(final PlayerJoinEvent event) {
-        plugin.updatePermissions(event.getPlayer());
-    }
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         plugin.removeAttachment(event.getPlayer());
