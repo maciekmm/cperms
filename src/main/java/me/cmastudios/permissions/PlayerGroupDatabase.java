@@ -29,7 +29,7 @@ class PlayerGroupDatabase {
     static Group getGroup(Permissions plugin, OfflinePlayer player) throws SQLException {
         try (PreparedStatement stmt = plugin.getDatabaseConnection().prepareStatement(
             "SELECT group_name FROM playergroups WHERE player = ?")) {
-            stmt.setString(1, player.getName());
+            stmt.setString(1, player.getUniqueId().toString());
             try (ResultSet result = stmt.executeQuery()) {
                 if (result.next()) {
                     return plugin.getGroup(result.getString("group_name"));
@@ -50,14 +50,14 @@ class PlayerGroupDatabase {
         try (PreparedStatement stmt = conn.prepareStatement(stmtText)) {
             stmt.setString(1, group.getName());
             stmt.setTimestamp(2, expirationDate);
-            stmt.setString(3, player.getName());
+            stmt.setString(3, player.getUniqueId().toString());
             stmt.executeUpdate();
         }
     }
 
     static boolean exists(Connection conn, OfflinePlayer player) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement("SELECT group_name FROM playergroups WHERE player = ?")) {
-            stmt.setString(1, player.getName());
+            stmt.setString(1, player.getUniqueId().toString());
             try (ResultSet result = stmt.executeQuery()) {
                 return result.next();
             }
@@ -67,7 +67,7 @@ class PlayerGroupDatabase {
     static Timestamp getExpirationDate(Connection conn, OfflinePlayer player) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(
             "SELECT expiration_date FROM playergroups WHERE player = ?")) {
-            stmt.setString(1, player.getName());
+            stmt.setString(1, player.getUniqueId().toString());
             try (ResultSet result = stmt.executeQuery()) {
                 if(result.next()) {
                     return result.getTimestamp("expiration_date");

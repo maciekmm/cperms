@@ -87,11 +87,7 @@ public final class Permissions extends JavaPlugin {
                 this.database = DriverManager.getConnection("jdbc:sqlite:" + databaseFile.getPath());
             }
             try (Statement initStatement = this.database.createStatement()) {
-                initStatement.executeUpdate("CREATE TABLE IF NOT EXISTS playergroups (player VARCHAR(16) PRIMARY KEY, group_name TEXT, expiration_date DATETIME NULL)");
-                try { // Update code
-                    initStatement.executeUpdate("ALTER TABLE playergroups ADD COLUMN expiration_date DATETIME NULL");
-                } catch (SQLException ignored) {
-                }
+                initStatement.executeUpdate("CREATE TABLE IF NOT EXISTS playergroups (uuid VARCHAR(36) PRIMARY KEY, group_name TEXT, expiration_date DATETIME NULL)");
             }
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
             this.getLogger().log(Level.SEVERE, "Failed to load database driver", ex);
